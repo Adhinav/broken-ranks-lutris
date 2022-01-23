@@ -1,0 +1,29 @@
+name: Broken Ranks
+game_slug: broken-ranks
+slug: wine
+version: Installer
+runner: wine
+script:
+    game:
+        arch: win64
+        exe: $GAMEDIR/drive_c/Whitemoon/BrokenRanks/launcher/BrokenRanksLauncher.exe
+        prefix: $GAMEDIR
+    files:
+        - installer: https://eu.brokenranks.com/BrokenRanksInstaller.exe
+    installer:
+        - task:
+            description: Creating wine prefix... (1/3)
+            arch: win64
+            name: create_prefix
+            prefix: $GAMEDIR  
+        - task:
+            description: Installing .NET Framework 4.0...(2/3)
+            name: winetricks
+            app: dotnet40
+            silent: false
+        - task:
+            description: Installing game files...(3/3)
+            arch: win64
+            executable: installer
+            name: wineexec
+            prefix: $GAMEDIR
